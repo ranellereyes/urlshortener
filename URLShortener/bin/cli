@@ -1,0 +1,30 @@
+def prompt
+  puts "Input your email"
+  email = gets.chomp
+
+  user = User.find_by(email: email)
+
+  puts "What cha wanna do????"
+  puts "0. Create shortened URL"
+  puts "1. Visit shortened URL"
+
+  num = gets.chomp
+
+  case num
+  when '0'
+    puts "Type in your long url"
+    long = gets.chomp
+    s = ShortenedUrl.this_is_kinda_create!(user, long)
+    puts "This is your short url: #{s.short_url}"
+  when '1'
+    puts "Type in the shortened url"
+    short = gets.chomp
+    l = ShortenedUrl.find_by(short_url: short).long_url
+    puts "Taking you to #{l}..."
+    Launchy.open(l)
+  end
+end
+
+if __FILE__ == $0
+  prompt
+end
